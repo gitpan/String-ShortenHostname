@@ -17,18 +17,22 @@ my %WriteMakefileArgs = (
     "ExtUtils::MakeMaker" => "6.30"
   },
   "DISTNAME" => "String-ShortenHostname",
-  "EXE_FILES" => [],
+  "EXE_FILES" => [
+    "bin/shorten_hostname"
+  ],
   "LICENSE" => "perl",
   "NAME" => "String::ShortenHostname",
   "PREREQ_PM" => {
+    "IO::Handle" => 0,
     "Moose" => 0,
+    "MooseX::Getopt" => 0,
     "strict" => 0,
     "warnings" => 0
   },
   "TEST_REQUIRES" => {
     "Test::More" => 0
   },
-  "VERSION" => "0.001",
+  "VERSION" => "0.002",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -36,7 +40,9 @@ my %WriteMakefileArgs = (
 
 
 my %FallbackPrereqs = (
+  "IO::Handle" => 0,
   "Moose" => 0,
+  "MooseX::Getopt" => 0,
   "Test::More" => 0,
   "strict" => 0,
   "warnings" => 0

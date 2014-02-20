@@ -2,12 +2,13 @@ use strict;
 use warnings;
 package String::ShortenHostname;
 
-our $VERSION = '0.001'; # VERSION
+our $VERSION = '0.002'; # VERSION
 
 use Moose;
 
 has 'length' => ( is => 'rw', isa => 'Int', required => 1 );
 has 'keep_digits_per_domain' => ( is => 'rw', isa => 'Int', default => 3 );
+has 'domain_edge' => ( is => 'rw', isa => 'Maybe[Str]' );
 
 has 'force' => ( is => 'rw', isa => 'Bool', default => 0 );
 has 'force_edge' => ( is => 'rw', isa => 'Maybe[Str]');
@@ -22,7 +23,17 @@ sub shorten {
 	}
 
 	for( my $i = scalar(@domain) - 1 ; $i >= 0 ; $i--) {
-		$domain[$i] = substr($domain[$i], 0, $self->keep_digits_per_domain);
+		my $cut_len = $self->keep_digits_per_domain;
+		if( length($domain[$i]) <= $self->keep_digits_per_domain ) {
+			next;
+		}
+		if( defined $self->domain_edge ) {
+			$cut_len -= length($self->domain_edge);
+		}
+		$domain[$i] = substr($domain[$i], 0, $cut_len);
+		if( defined $self->domain_edge ) {
+			$domain[$i] .= $self->domain_edge;
+		}
 		$cur_len = length(join('.', $host, @domain));
 		
 		if( $cur_len <= $self->length ) {
@@ -62,17 +73,21 @@ String::ShortenHostname - tries to shorten hostnames while keeping them meaningf
   $sh->shorten('zumsel.haushaltswarenabteilung.einzelhandel.de');
   # zumsel.haush.einze.de
 
+  $sh->domain_edge('~');
+  $sh->shorten('zumsel.haushaltswarenabteilung.einzelhandel.de');
+  # zumsel.haus~.einz~.de
+
   $sh->keep_digits_per_domain(3);
   $sh->shorten('verylonghostnamepartcannotbeshortend.some-domain.de');
-  # verylonghostnamepartcannotbeshortend.som.de -> still 43 chars 
+  # verylonghostnamepartcannotbeshortend.so~.de -> still 43 chars 
 
   $sh->force(1);
   $sh->shorten('verylonghostnamepartcannotbeshortend.some-domain.de');
   # verylonghostnamepart
 
-  $sh->force_edge('~');
+  $sh->force_edge('~>');
   $sh->shorten('verylonghostnamepartcannotbeshortend.some-domain.de');
-  # verylonghostnamepar~
+  # verylonghostnamepa~>
 
 =head1 DESCRIPTION
 
@@ -91,6 +106,11 @@ The desired maximum length of the hostname string.
 =item keep_digits_per_domain (default: 3)
 
 Cut each domain part at this length.
+
+=item domain_edge (default: undef)
+
+If defined this string will be used to replace the end of each domain truncated to
+indicate that it was truncated.
 
 =item force (default: 0)
 

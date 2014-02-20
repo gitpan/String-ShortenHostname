@@ -6,8 +6,10 @@ META.json
 META.yml
 Makefile.PL
 README
+bin/shorten_hostname
 dist.ini
 lib/String/ShortenHostname.pm
+lib/String/ShortenHostname/App.pm
 t/author-critic.t
 t/basic.t
 t/release-pod-syntax.t

@@ -15,8 +15,11 @@ is($sh->shorten($long_domain), 'zumsel.hau.ein.de', 'shorten 3 digits per domain
 $sh->keep_digits_per_domain(5);
 is($sh->shorten($long_domain), 'zumsel.haush.einze.de', 'shorten 5 digits per domain' );
 
+$sh->domain_edge('~');
+is($sh->shorten($long_domain), 'zumsel.haus~.einz~.de', 'shorten 5 digits per domain' );
+
 $sh->keep_digits_per_domain(3);
-is($sh->shorten($long_host), 'verylonghostnamepartcannotbeshortend.som.de', 'shorten long domain with 3 digits per domain' );
+is($sh->shorten($long_host), 'verylonghostnamepartcannotbeshortend.so~.de', 'shorten long domain with 3 digits per domain' );
 
 $sh->force(1);
 is($sh->shorten($long_host), 'verylonghostnamepart', 'force shortening' );
