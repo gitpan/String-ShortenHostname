@@ -3,6 +3,7 @@ abstract: 'tries to shorten hostnames while keeping them meaningful'
 author:
   - 'Markus Benning <me@w3r3wolf.de>'
 build_requires:
+  Test::Exception: 0
   Test::More: 0
 configure_requires:
   ExtUtils::MakeMaker: 6.30
@@ -22,4 +23,4 @@ requires:
 resources:
   bugtracker: http://rt.cpan.org/NoAuth/Bugs.html?Dist=String-ShortenHostname
   repository: https://github.com/benningm/String-ShortenHostname
-version: 0.002
+version: 0.003

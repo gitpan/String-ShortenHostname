@@ -3,7 +3,7 @@ package String::ShortenHostname::App;
 use Moose;
 use IO::Handle;
 
-our $VERSION = '0.002'; # VERSION
+our $VERSION = '0.003'; # VERSION
 
 extends 'String::ShortenHostname';
 with 'MooseX::Getopt';
@@ -25,6 +25,12 @@ has '+domain_edge' => (
 	traits => ['Getopt'],
 	cmd_aliases => "e",
 	documentation => "edge string for truncation of domain",
+);
+
+has '+cut_middle' => (
+	traits => ['Getopt'],
+	cmd_aliases => "m",
+	documentation => "dont truncate, cut in the middle of domain",
 );
 
 has '+force' => (

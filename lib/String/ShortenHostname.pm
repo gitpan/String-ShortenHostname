@@ -2,16 +2,17 @@ use strict;
 use warnings;
 package String::ShortenHostname;
 
-our $VERSION = '0.002'; # VERSION
+our $VERSION = '0.003'; # VERSION
 
 use Moose;
 
 has 'length' => ( is => 'rw', isa => 'Int', required => 1 );
-has 'keep_digits_per_domain' => ( is => 'rw', isa => 'Int', default => 3 );
-has 'domain_edge' => ( is => 'rw', isa => 'Maybe[Str]' );
+has 'keep_digits_per_domain' => ( is => 'rw', isa => 'Int', default => 5 );
+has 'domain_edge' => ( is => 'rw', isa => 'Maybe[Str]', default => '~' );
+has 'cut_middle' => ( is => 'rw', isa => 'Bool', default => 1 );
 
-has 'force' => ( is => 'rw', isa => 'Bool', default => 0 );
-has 'force_edge' => ( is => 'rw', isa => 'Maybe[Str]');
+has 'force' => ( is => 'rw', isa => 'Bool', default => 1 );
+has 'force_edge' => ( is => 'rw', isa => 'Maybe[Str]', default => '~>');
 
 sub shorten {
 	my ( $self, $hostname ) = @_;
@@ -24,15 +25,25 @@ sub shorten {
 
 	for( my $i = scalar(@domain) - 1 ; $i >= 0 ; $i--) {
 		my $cut_len = $self->keep_digits_per_domain;
+		my $orig = $domain[$i];
 		if( length($domain[$i]) <= $self->keep_digits_per_domain ) {
 			next;
 		}
 		if( defined $self->domain_edge ) {
 			$cut_len -= length($self->domain_edge);
 		}
-		$domain[$i] = substr($domain[$i], 0, $cut_len);
+		if( $self->cut_middle ) {
+			$cut_len--;
+		}
+		if( $cut_len < 1 ) {
+			die('remaining length per domain too small, adjust keep_digits_per_domain, domain_edge, cut_middle');
+		}
+		$domain[$i] = substr($orig, 0, $cut_len);
 		if( defined $self->domain_edge ) {
 			$domain[$i] .= $self->domain_edge;
+		}
+		if( $self->cut_middle ) {
+			$domain[$i] .= substr($orig, -1, 1);
 		}
 		$cur_len = length(join('.', $host, @domain));
 		
