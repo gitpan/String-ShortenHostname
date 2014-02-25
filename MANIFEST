@@ -12,6 +12,5 @@ lib/String/ShortenHostname.pm
 lib/String/ShortenHostname/App.pm
 t/author-critic.t
 t/basic.t
-t/command.t
 t/release-pod-syntax.t
 t/test_data

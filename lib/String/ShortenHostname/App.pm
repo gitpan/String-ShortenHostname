@@ -3,7 +3,7 @@ package String::ShortenHostname::App;
 use Moose;
 use IO::Handle;
 
-our $VERSION = '0.004'; # VERSION
+our $VERSION = '0.005'; # VERSION
 
 extends 'String::ShortenHostname';
 with 'MooseX::Getopt';

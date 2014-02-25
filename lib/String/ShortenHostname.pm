@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package String::ShortenHostname;
 
-our $VERSION = '0.004'; # VERSION
+our $VERSION = '0.005'; # VERSION
 
 use Moose;
 

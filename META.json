@@ -35,7 +35,6 @@
       },
       "test" : {
          "requires" : {
-            "IPC::Run" : "0",
             "Test::Exception" : "0",
             "Test::More" : "0"
          }
@@ -53,6 +52,6 @@
          "web" : "https://github.com/benningm/String-ShortenHostname.git"
       }
    },
-   "version" : "0.004"
+   "version" : "0.005"
 }
 
