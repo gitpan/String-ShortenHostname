@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package String::ShortenHostname;
 
-our $VERSION = '0.003'; # VERSION
+our $VERSION = '0.004'; # VERSION
 
 use Moose;
 
@@ -77,28 +77,21 @@ String::ShortenHostname - tries to shorten hostnames while keeping them meaningf
 
   use String::ShortenHostname;
 
-  $sh = String::ShortenHostname->new( length => 20, keep_digits_per_domain => 3 );
+  my $sh = String::ShortenHostname->new( length => 20 );
   $sh->shorten('zumsel.haushaltswarenabteilung.einzelhandel.de');
-  # zumsel.hau.ein.de
-  $sh->keep_digits_per_domain(5);
-  $sh->shorten('zumsel.haushaltswarenabteilung.einzelhandel.de');
-  # zumsel.haush.einze.de
+  # zumsel.hau~g.ein~l~>
 
-  $sh->domain_edge('~');
+  $sh->cut_middle(0);
+  $sh->shorten('zumsel.haushaltswarenabteilung.einzelhandel.de');
+  # zumsel.haus~.einz~~>
+
+  $sh->force(0);
   $sh->shorten('zumsel.haushaltswarenabteilung.einzelhandel.de');
   # zumsel.haus~.einz~.de
 
-  $sh->keep_digits_per_domain(3);
-  $sh->shorten('verylonghostnamepartcannotbeshortend.some-domain.de');
-  # verylonghostnamepartcannotbeshortend.so~.de -> still 43 chars 
-
-  $sh->force(1);
-  $sh->shorten('verylonghostnamepartcannotbeshortend.some-domain.de');
-  # verylonghostnamepart
-
-  $sh->force_edge('~>');
-  $sh->shorten('verylonghostnamepartcannotbeshortend.some-domain.de');
-  # verylonghostnamepa~>
+  $sh->domain_edge(undef);
+  $sh->shorten('zumsel.haushaltswarenabteilung.einzelhandel.de');
+  # zumsel.haush.einze.de
 
 =head1 DESCRIPTION
 
@@ -114,20 +107,24 @@ Options:
 
 The desired maximum length of the hostname string.
 
-=item keep_digits_per_domain (default: 3)
+=item keep_digits_per_domain (default: 5)
 
 Cut each domain part at this length.
 
-=item domain_edge (default: undef)
+=item domain_edge (default: '~')
 
 If defined this string will be used to replace the end of each domain truncated to
 indicate that it was truncated.
 
-=item force (default: 0)
+=item cut_middle (default: 1)
+
+Will do the cut one character before the last.
+
+=item force (default: 1)
 
 If specified the module will force the length by cutting the result string.
 
-=item force_edge (default: undef)
+=item force_edge (default: '~>')
 
 If defined this string will be used to replace the end of the string to
 indicate that it was truncated.
