@@ -1,9 +1,11 @@
 package String::ShortenHostname::App;
+# ABSTRACT: class for wrapping getopt options to the class interface
 
 use Moose;
 use IO::Handle;
 
-our $VERSION = '0.005'; # VERSION
+our $VERSION = '0.006'; # VERSION
+
 
 extends 'String::ShortenHostname';
 with 'MooseX::Getopt';
@@ -68,4 +70,40 @@ sub run {
 }
 
 1;
+
+
+__END__
+=pod
+
+=head1 NAME
+
+String::ShortenHostname::App - class for wrapping getopt options to the class interface
+
+=head1 VERSION
+
+version 0.006
+
+=head1 SYNOPSIS
+
+  use String::ShortenHostname::App;
+
+  my $app = String::ShortenHostname::App->new_with_options();
+  $app->run;
+
+=head1 SEE ALSO
+
+L<shorten_hostname>
+
+=head1 AUTHOR
+
+Markus Benning <me@w3r3wolf.de>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2014 by Markus Benning.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut
 

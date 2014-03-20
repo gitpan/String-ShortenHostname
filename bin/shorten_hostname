@@ -3,7 +3,10 @@
 use strict;
 use warnings;
 
-our $VERSION = '0.005'; # VERSION
+# ABSTRACT: tries to shorten hostnames while keeping them meaningful
+# PODNAME: shorten_hostname
+our $VERSION = '0.006'; # VERSION
+
 
 use String::ShortenHostname::App;
 
@@ -15,17 +18,17 @@ if($@) {
 
 exit(0);
 
+
 __END__
+=pod
 
 =head1 NAME
 
 shorten_hostname - tries to shorten hostnames while keeping them meaningful
 
-=head1 DESCRIPTION
+=head1 VERSION
 
-shorten_hostname will try to shorten the hostname string to the length specified.
-It will cut each domain part to a given length from right to left till the string is
-short enough or the end of the domain has been reached.
+version 0.006
 
 =head1 SYNOPSIS
 
@@ -41,6 +44,12 @@ short enough or the end of the domain has been reached.
         -E --force_edge                 edge string for forced truncation of
 
 Hostnames can be specified as additional arguments or on STDIN.
+
+=head1 DESCRIPTION
+
+shorten_hostname will try to shorten the hostname string to the length specified.
+It will cut each domain part to a given length from right to left till the string is
+short enough or the end of the domain has been reached.
 
 =head1 EXAMPLE
 
@@ -85,12 +94,16 @@ indicate that it was truncated.
 
 =back
 
-=head1 COPYRIGHT
+=head1 AUTHOR
 
-Copyright 2014 Markus Benning <me@w3r3wolf.de>
+Markus Benning <me@w3r3wolf.de>
 
-This library is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2014 by Markus Benning.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
 

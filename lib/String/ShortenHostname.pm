@@ -1,10 +1,10 @@
-use strict;
-use warnings;
 package String::ShortenHostname;
-
-our $VERSION = '0.005'; # VERSION
+# ABSTRACT: tries to shorten hostnames while keeping them meaningful
 
 use Moose;
+
+our $VERSION = '0.006'; # VERSION
+
 
 has 'length' => ( is => 'rw', isa => 'Int', required => 1 );
 has 'keep_digits_per_domain' => ( is => 'rw', isa => 'Int', default => 5 );
@@ -67,11 +67,17 @@ sub shorten {
 
 1;
 
+
 __END__
+=pod
 
 =head1 NAME
 
 String::ShortenHostname - tries to shorten hostnames while keeping them meaningful
+
+=head1 VERSION
+
+version 0.006
 
 =head1 SYNOPSIS
 
@@ -131,11 +137,16 @@ indicate that it was truncated.
 
 =back
 
-=head1 COPYRIGHT
+=head1 AUTHOR
 
-Copyright 2014 Markus Benning <me@w3r3wolf.de>
+Markus Benning <me@w3r3wolf.de>
 
-This library is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2014 by Markus Benning.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
+
